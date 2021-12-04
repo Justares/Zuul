@@ -19,6 +19,7 @@ import java.util.HashMap;
 public class Room {
     private String description;
     HashMap<String, Room> roomExit;
+    HashMap<String, Item> item;
 
 
     /**
@@ -30,17 +31,17 @@ public class Room {
      */
     public Room(String description) {
         this.description = description;
-         roomExit = new HashMap<String, Room>();
+        roomExit = new HashMap<>();
+        item = new HashMap<>();
     }
 
 
     /**
      * Define the exits of this room.  Every direction either leads
      * to another room or is null (no exit there).
-     *
      */
     public void setExit(String direction, Room neighbour) {
-        this.roomExit.put(direction,neighbour);
+        this.roomExit.put(direction, neighbour);
     }
 
 
@@ -50,9 +51,9 @@ public class Room {
     }
 
     public String exitsToString() {
-        String str="";
-        for(String direction : roomExit.keySet()) {
-            str+= direction + " ";
+        String str = "";
+        for (String direction : roomExit.keySet()) {
+            str += direction + " ";
         }
         return str;
     }
@@ -65,13 +66,27 @@ public class Room {
         return description;
     }
 
-    public String getLongDescription(){
+    public String getLongDescription() {
         StringBuilder str = new StringBuilder();
-        str.append("You are " + description + "\n");
+        str.append("You are " + getDescription() + "\n");
         str.append("Exits: ");
-        str.append(exitsToString());
+        str.append(exitsToString() + "\n");
+        if (item.size() == 0) {
+            str.append("No Items in this Room");
+        } else {
+            str.append("Items in this room: \n");
+
+            for (String key : item.keySet()) {
+                str.append("- " + item.get(key).toString());
+            }
+        }
+
         String s = str.toString();
         return s;
+    }
+
+    public void putItem(Item newItem) {
+        item.put(newItem.getName(), newItem);
     }
 
 }

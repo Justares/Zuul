@@ -34,6 +34,7 @@ public class Game {
      */
     private void createRooms() {
         Room marketsquare, templePyramid, tavern, sacrificialSite, hut, jungle, secretPassage, cave, beach, roomOfMage, basement;
+        Item bow, treasure, arrow, plant, cacoa, knife, spear, food, jewelry;
 
         // create the rooms
         marketsquare = new Room("on the market square");
@@ -47,6 +48,17 @@ public class Game {
         beach = new Room("on the beach");
         roomOfMage = new Room("in the room of the mage");
         basement = new Room("in a dark basement");
+        //create the items
+
+        bow = new Item("Bow", "A wood bow", 0.5);
+        treasure = new Item("Treasure", "a little treasure with coins", 7.5);
+        arrow = new Item("Arrow", "A quiver with various arrows", 1);
+        plant = new Item("Plant", "A healing plant", 0.5);
+        cacoa = new Item("Cacoa", "A small cacoatree",5);
+        knife = new Item("Knife","A very sharp and big knife",1);
+        spear = new Item("Spear","a spear with a sharp tip",5);
+        food = new Item("Food", "a plate with hearty meat and corn porridge",0.5);
+        jewelry = new Item("Jewelry", "A nice hat", 1);
 
         // initialise room exits
         marketsquare.setExit("west", sacrificialSite);
@@ -69,11 +81,22 @@ public class Game {
         cave.setExit("up", sacrificialSite);
         cave.setExit("east", secretPassage);
         cave.setExit("south", beach);
-        beach.setExit("north",cave);
-        roomOfMage.setExit("down",templePyramid);
-        basement.setExit("up",templePyramid);
+        beach.setExit("north", cave);
+        roomOfMage.setExit("down", templePyramid);
+        basement.setExit("up", templePyramid);
         basement.setExit("west", secretPassage);
 
+
+        //Putting Items in Room
+        marketsquare.putItem(bow);
+        cave.putItem(treasure);
+        roomOfMage.putItem(arrow);
+        jungle.putItem(plant);
+        jungle.putItem(cacoa);
+        sacrificialSite.putItem(knife);
+        hut.putItem(spear);
+        tavern.putItem(food);
+        basement.putItem(jewelry);
 
 
         currentRoom = marketsquare;  // start game on marketsquare
@@ -132,7 +155,7 @@ public class Game {
             printHelp();
         } else if (commandWord.equals("go")) {
             goRoom(command);
-        } else if(commandWord.equals("look")){
+        } else if (commandWord.equals("look")) {
             look();
 
         } else if (commandWord.equals("quit")) {
@@ -183,7 +206,7 @@ public class Game {
         }
     }
 
-    private void look(){
+    private void look() {
         System.out.println(currentRoom.getLongDescription());
     }
 
