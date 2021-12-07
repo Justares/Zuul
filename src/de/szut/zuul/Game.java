@@ -19,14 +19,17 @@ package de.szut.zuul;
 
 public class Game {
     private Parser parser;
-    private Room currentRoom;
+    private Player player;
+
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game() {
+        this.player = new Player();
         createRooms();
         parser = new Parser();
+
     }
 
     /**
@@ -34,7 +37,7 @@ public class Game {
      */
     private void createRooms() {
         Room marketsquare, templePyramid, tavern, sacrificialSite, hut, jungle, secretPassage, cave, beach, roomOfMage, basement;
-        Item bow, treasure, arrow, plant, cacoa, knife, spear, food, jewelry;
+        Item bow, treasure, arrow, plant, cacoa, knife, spear, food, jewelry, muffin;
 
         // create the rooms
         marketsquare = new Room("on the market square");
@@ -50,14 +53,15 @@ public class Game {
         basement = new Room("in a dark basement");
         //create the items
 
-        bow = new Item("Bow", "A wood bow", 0.5);
+        //  bow = new Item("Bow", "A wood bow", 9.1);
+        muffin = new Item("Muffin", "muffin", 0);
         treasure = new Item("Treasure", "a little treasure with coins", 7.5);
         arrow = new Item("Arrow", "A quiver with various arrows", 1);
         plant = new Item("Plant", "A healing plant", 0.5);
-        cacoa = new Item("Cacoa", "A small cacoatree",5);
-        knife = new Item("Knife","A very sharp and big knife",1);
-        spear = new Item("Spear","a spear with a sharp tip",5);
-        food = new Item("Food", "a plate with hearty meat and corn porridge",0.5);
+        cacoa = new Item("Cacoa", "A small cacoatree", 5);
+        knife = new Item("Knife", "A very sharp and big knife", 1);
+        spear = new Item("Spear", "a spear with a sharp tip", 5);
+        food = new Item("Food", "a plate with hearty meat and corn porridge", 0.5);
         jewelry = new Item("Jewelry", "A nice hat", 1);
 
         // initialise room exits
@@ -88,7 +92,8 @@ public class Game {
 
 
         //Putting Items in Room
-        marketsquare.putItem(bow);
+        //marketsquare.putItem(bow);
+        marketsquare.putItem(muffin);
         cave.putItem(treasure);
         roomOfMage.putItem(arrow);
         jungle.putItem(plant);
@@ -99,7 +104,8 @@ public class Game {
         basement.putItem(jewelry);
 
 
-        currentRoom = marketsquare;  // start game on marketsquare
+        player.goTo(marketsquare); // start game on marketsquare
+
     }
 
     /**
@@ -121,7 +127,7 @@ public class Game {
 
     private void printRaumInfo() {
 
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
 
     }
 
@@ -157,6 +163,18 @@ public class Game {
             goRoom(command);
         } else if (commandWord.equals("look")) {
             look();
+
+        } else if (commandWord.equals("take")) {
+            takeItem(command);
+            System.out.println(player.showStatus());
+            System.out.println(player.getCurrentRoom().getLongDescription());
+
+        } else if (commandWord.equals("drop")) {
+            dropItem(command);
+            System.out.println(player.showStatus());
+            System.out.println(player.getCurrentRoom().getLongDescription());
+        } else if (commandWord.equals("eat")) {
+            //muss ich noch machen
 
         } else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -195,19 +213,37 @@ public class Game {
 
         // Try to leave current room.
         Room nextRoom = null;
-        nextRoom = currentRoom.getExit(direction);
+        nextRoom = player.getCurrentRoom().getExit(direction);
 
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         } else {
-            currentRoom = nextRoom;
+            player.goTo(nextRoom);
             printRaumInfo();
         }
     }
 
     private void look() {
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
+    }
+
+    private void takeItem(Command command) {
+        if (player.takeItem(player.getCurrentRoom().itemList.get(command.getSecondWord()))) {
+            player.getCurrentRoom().removeItem(command.getSecondWord());
+
+        } else {
+            System.out.println("Item ist zu schwer oder konnte nicht gefunden werden");
+        }
+
+    }
+
+    private void dropItem(Command command) {
+        player.dropItem(command.getSecondWord());
+    }
+
+    private void eatItem(Command command) {
+
     }
 
     /**

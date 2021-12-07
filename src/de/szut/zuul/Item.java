@@ -11,6 +11,10 @@ public class Item {
         this.weight = weight;
     }
 
+    public double getWeight() {
+        return weight;
+    }
+
     @Override
     public String toString(){
         return  this.name + ", " + this.description + ", " + this.weight + "kg";

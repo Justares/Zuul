@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class Room {
     private String description;
     HashMap<String, Room> roomExit;
-    HashMap<String, Item> item;
+    HashMap<String, Item> itemList;
 
 
     /**
@@ -32,7 +32,7 @@ public class Room {
     public Room(String description) {
         this.description = description;
         roomExit = new HashMap<>();
-        item = new HashMap<>();
+        itemList = new HashMap<>();
     }
 
 
@@ -71,13 +71,13 @@ public class Room {
         str.append("You are " + getDescription() + "\n");
         str.append("Exits: ");
         str.append(exitsToString() + "\n");
-        if (item.size() == 0) {
+        if (itemList.size() == 0) {
             str.append("No Items in this Room");
         } else {
             str.append("Items in this room: \n");
 
-            for (String key : item.keySet()) {
-                str.append("- " + item.get(key).toString());
+            for (String key : itemList.keySet()) {
+                str.append("- " + itemList.get(key).toString());
             }
         }
 
@@ -86,7 +86,13 @@ public class Room {
     }
 
     public void putItem(Item newItem) {
-        item.put(newItem.getName(), newItem);
+        itemList.put(newItem.getName(), newItem);
+    }
+
+    public Item removeItem(String name){
+        itemList.remove(name);
+
+        return null;
     }
 
 }
