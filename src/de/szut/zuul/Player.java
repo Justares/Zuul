@@ -50,13 +50,24 @@ public class Player {
         return null;
     }
 
-    public Item eatItem(String name){
+    public boolean eatItem(String name) {
+        for (int i = 0; i < inventar.size(); i++) {
+            if (inventar.get(i).getName().equalsIgnoreCase("Muffin")) {
+                setLoadCapacity(loadCapacity+50);
+                inventar.remove(i);
+                System.out.println(showStatus());
+                return true;
 
+            }
+        }
 
-        return null;
+        return false;
     }
 
 
+    public void setLoadCapacity(double loadCapacity) {
+        this.loadCapacity = loadCapacity;
+    }
 
     public String showStatus() {
         return "Status of the player" + "\n" +

@@ -54,15 +54,15 @@ public class Game {
         //create the items
 
         //  bow = new Item("Bow", "A wood bow", 9.1);
-        muffin = new Item("Muffin", "muffin", 0);
-        treasure = new Item("Treasure", "a little treasure with coins", 7.5);
-        arrow = new Item("Arrow", "A quiver with various arrows", 1);
-        plant = new Item("Plant", "A healing plant", 0.5);
-        cacoa = new Item("Cacoa", "A small cacoatree", 5);
-        knife = new Item("Knife", "A very sharp and big knife", 1);
-        spear = new Item("Spear", "a spear with a sharp tip", 5);
-        food = new Item("Food", "a plate with hearty meat and corn porridge", 0.5);
-        jewelry = new Item("Jewelry", "A nice hat", 1);
+        muffin = new Item("Muffin", "muffin", 0,true);
+        treasure = new Item("Treasure", "a little treasure with coins", 7.5,false);
+        arrow = new Item("Arrow", "A quiver with various arrows", 1,false);
+        plant = new Item("Plant", "A healing plant", 0.5,true);
+        cacoa = new Item("Cacoa", "A small cacoatree", 5,true);
+        knife = new Item("Knife", "A very sharp and big knife", 1,true);
+        spear = new Item("Spear", "a spear with a sharp tip", 5,false);
+        food = new Item("Food", "a plate with hearty meat and corn porridge", 0.5,false);
+        jewelry = new Item("Jewelry", "A nice hat", 1,false);
 
         // initialise room exits
         marketsquare.setExit("west", sacrificialSite);
@@ -174,7 +174,7 @@ public class Game {
             System.out.println(player.showStatus());
             System.out.println(player.getCurrentRoom().getLongDescription());
         } else if (commandWord.equals("eat")) {
-            //muss ich noch machen
+            eatItem(command);
 
         } else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -243,6 +243,13 @@ public class Game {
     }
 
     private void eatItem(Command command) {
+        if(player.eatItem(command.getSecondWord())){
+            player.eatItem(command.getSecondWord());
+        }else{
+            System.out.println("Das kann ich nicht essen");
+        }
+
+
 
     }
 
