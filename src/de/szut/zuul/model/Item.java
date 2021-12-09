@@ -1,4 +1,4 @@
-package de.szut.zuul;
+package de.szut.zuul.model;
 
 public class Item {
     private String name;
@@ -11,6 +11,9 @@ public class Item {
         this.description = description;
         this.weight = weight;
         this.eatAble = eatAble;
+    }
+    public String getTyp(){
+        return "Item";
     }
 
     public double getWeight() {

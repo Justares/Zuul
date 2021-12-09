@@ -1,4 +1,4 @@
-package de.szut.zuul;
+package de.szut.zuul.model;
 
 import java.util.HashMap;
 
@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class Room {
     private String description;
     HashMap<String, Room> roomExit;
-    HashMap<String, Item> itemList;
+    public HashMap<String, Item> itemList;
 
 
     /**

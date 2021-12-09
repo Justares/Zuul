@@ -1,4 +1,10 @@
-package de.szut.zuul;
+package de.szut.zuul.gamecontrol;
+
+import de.szut.zuul.exceptions.ItemNotFoundException;
+import de.szut.zuul.model.Herb;
+import de.szut.zuul.model.Item;
+import de.szut.zuul.model.Player;
+import de.szut.zuul.model.Room;
 
 /**
  * This class is the main class of the "World of Zuul" application.
@@ -57,7 +63,7 @@ public class Game {
         muffin = new Item("Muffin", "muffin", 0,true);
         treasure = new Item("Treasure", "a little treasure with coins", 7.5,false);
         arrow = new Item("Arrow", "A quiver with various arrows", 1,false);
-        plant = new Item("Plant", "A healing plant", 0.5,true);
+        plant = new Herb("Plant", "A healing plant", 0.5,true);
         cacoa = new Item("Cacoa", "A small cacoatree", 5,true);
         knife = new Item("Knife", "A very sharp and big knife", 1,true);
         spear = new Item("Spear", "a spear with a sharp tip", 5,false);
@@ -92,8 +98,8 @@ public class Game {
 
 
         //Putting Items in Room
-        //marketsquare.putItem(bow);
         marketsquare.putItem(muffin);
+        marketsquare.putItem(plant);
         cave.putItem(treasure);
         roomOfMage.putItem(arrow);
         jungle.putItem(plant);
@@ -239,15 +245,23 @@ public class Game {
     }
 
     private void dropItem(Command command) {
-        player.dropItem(command.getSecondWord());
+
+        try {
+            player.dropItem(command.getSecondWord());
+            throw new ItemNotFoundException();
+        } catch (ItemNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void eatItem(Command command) {
+        System.out.println(player.eatItem(command.getSecondWord()));
         if(player.eatItem(command.getSecondWord())){
             player.eatItem(command.getSecondWord());
         }else{
             System.out.println("Das kann ich nicht essen");
         }
+
 
 
 
